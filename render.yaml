@@ -1,0 +1,20 @@
+# Free testing deployment. SQLite records are disposable on this plan.
+services:
+  - type: web
+    name: smarttrip-demo
+    runtime: python
+    plan: free
+    buildCommand: python -m py_compile server.py planner.py schema.py
+    startCommand: python server.py
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.11
+      - key: HOST
+        value: 0.0.0.0
+      - key: SECURE_COOKIES
+        value: "1"
+      - key: EPHEMERAL_STORAGE
+        value: "1"
+      - key: SMARTTRIP_DB
+        value: data/smarttrip.sqlite3
